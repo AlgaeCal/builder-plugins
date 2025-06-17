@@ -104,16 +104,8 @@ const RichTextEditor = (props) => {
 }
 
 Builder.registerEditor({
-  name: 'AlgaeRichText Local',
+  name: 'RichText',
   component: RichTextEditor,
-  options: [
-    {
-      name: 'color',
-      type: 'color',
-      defaultValue: 'Enter text here...',
-      helperText: 'Placeholder text for the rich text editor.'
-    }
-  ]
 });
 
 export default RichTextEditor;
