@@ -1,9 +1,28 @@
 // contents of webpack.config.js
 const path = require('path');
-const pkg = require('./package.json');
+const pkg = require('./package.json'); // Make sure pkg.output is defined, e.g., "output": "plugin.system.js"
+const glob = require('glob');
+
+// Helper function to get all relevant plugin entry files
+const getAllPluginEntryFiles = (baseDir, pattern) => {
+  const absoluteBaseDir = path.resolve(__dirname, baseDir);
+  return glob.sync(`${absoluteBaseDir}/*/index.{js,jsx,ts,tsx}`);
+};
 
 module.exports = {
-  entry: `./src/${pkg.entry}.jsx`,
+  mode: 'production',
+  entry: {
+    'plugins': getAllPluginEntryFiles('src/plugins', '**/*.{js,jsx,ts,tsx}')
+  },
+
+  output: {
+    path: path.resolve(__dirname, 'dist'), // Emits to 'dist' folder
+    filename: pkg.output || 'plugin.system.js',
+    libraryTarget: 'system',
+    library: 'BuilderPlugins',
+    clean: true, 
+  },
+
   externals: {
     '@builder.io/react': '@builder.io/react',
     '@builder.io/app-context': '@builder.io/app-context',
@@ -11,14 +30,11 @@ module.exports = {
     "react": "react",
     "react-dom": "react-dom"
   },
-  output: {
-    filename: pkg.output,
-    path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'system',
-  },
+
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx'], 
   },
+
   module: {
     rules: [
         {
@@ -41,7 +57,7 @@ module.exports = {
     ],
   },
   devServer: {
-    port: 1268,
+    port: 5000,
     static: {
        directory: path.join(__dirname, './dist'),
      },
