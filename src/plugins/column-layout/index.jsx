@@ -41,7 +41,7 @@ function ColumnLayouts(props) {
 }
 
 Builder.registerEditor({
-    name: "ColumnLayouts Test",
+    name: "ColumnLayouts",
     component: ColumnLayouts,
     defaultValue: 1,
 });
