@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development",
+    "dev": "webpack-dev-server --mode development",
     "test": "jest --coverage"
   },
   "author": "AlgaeCal",

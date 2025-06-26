@@ -28,12 +28,20 @@ function ColumnLayouts(props) {
                 <span className='column'> 1/3 </span>
                 <span className='column'> 1/3 </span>
             </button>
+            <button className={`column-button column-2-of-3 ${selected === 4 ? 'selected' : ''}`} value={"2/3-1/3"} onClick={() => handleClick(4)}>
+                <span className='column'> 2/3 </span>
+                <span className='column'> 1/3 </span>
+            </button>
+            <button className={`column-button column-2-of-3-reversed ${selected === 5 ? 'selected' : ''}`} value={"1/3-2/3"} onClick={() => handleClick(5)}>
+                <span className='column'> 1/3 </span>
+                <span className='column'> 2/3 </span>
+            </button>
         </div>
     );
 }
 
 Builder.registerEditor({
-    name: "ColumnLayouts",
+    name: "ColumnLayouts Test",
     component: ColumnLayouts,
     defaultValue: 1,
 });
