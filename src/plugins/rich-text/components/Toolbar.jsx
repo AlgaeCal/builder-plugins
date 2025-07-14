@@ -17,6 +17,12 @@ const Toolbar = ({ insertHighlight, insertColor }) => {
                     <button style={{ width: 'fit-content' }} className='ql-highlight' onClick={() => insertHighlight()}> <strong> Highlight </strong> </button>
                     <button style={{ width: 'fit-content' }} className='ql-color' onClick={() => insertColor('red')}> <strong> Color </strong> </button>
                 </div>
+                <div>
+                    <button className="ql-list" value="ordered"></button>
+                    <button className="ql-list" value="bullet"></button>
+                    <button className="ql-indent" value="-1"></button>
+                    <button className="ql-indent" value="+1"></button>
+                </div>
             </div>
         </div>
     )

@@ -7,6 +7,7 @@ import { useRef, useCallback } from 'react';
 import Toolbar from './components/Toolbar';
 
 const Inline = Quill.import('blots/inline');
+const Link = Quill.import('formats/link');
 
 const modules = {
   toolbar: {
@@ -23,8 +24,23 @@ const formats = [
   'script',
   'color',
   'highlight',
+  'list',
+  'bullet',
+  'indent',
 ];
 
+class CustomLink extends Link {
+  static create(value) {
+    const node = super.create(value);
+    if (value && value.startsWith('#')) {
+      node.removeAttribute('target');
+    } else {
+      node.setAttribute('target', '_blank');
+      node.setAttribute('rel', 'noopener noreferrer');
+    }
+    return node;
+  }
+}
 class Highlight extends Inline {
   static blotName = 'highlight';
   static className = 'highlight';
@@ -64,6 +80,7 @@ class Color extends Inline {
 
 Quill.register({ 'formats/mark': Highlight })
 Quill.register({ 'formats/color': Color });
+Quill.register({ 'formats/link': CustomLink });
 
 const RichTextEditor = (props) => {
   const editorRef = useRef(null);
@@ -98,13 +115,14 @@ const RichTextEditor = (props) => {
       value={props.value}
       modules={modules}
       formats={formats}
-      theme={"snow"} // pass false to use minimal theme
+      theme={"snow"}
     />
   </div>
 }
 
 Builder.registerEditor({
-  name: 'RichText',
+  id: '@algeacal/rich-text',
+  name: 'RichTextTest',
   component: RichTextEditor,
 });
 
