@@ -5,9 +5,9 @@ import { Builder } from '@builder.io/react';
 import ReactQuill, { Quill } from 'react-quill';
 import { useRef, useCallback } from 'react';
 import Toolbar from './components/Toolbar';
+import Link from '../../blots/Link';
 import Highlight from '../../blots/Highlight';
 import Color from '../../blots/Color';
-import Link from '../../blots/Link';
 
 const modules = {
   toolbar: {
@@ -24,6 +24,9 @@ const formats = [
   'script',
   'color',
   'highlight',
+  'list',
+  'bullet',
+  'indent',
 ];
 
 Quill.register({ 'formats/mark': Highlight })
@@ -68,7 +71,7 @@ const RichTextEditor = (props) => {
 }
 
 Builder.registerEditor({
-  name: 'RichText',
+  name: 'ListRichText',
   component: RichTextEditor,
 });
 
