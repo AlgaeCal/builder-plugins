@@ -65,9 +65,10 @@ const RichTextEditor = (props) => {
     [editorRef]
   );
 
-  const handleChange = (html, delta, source, editor) => {
-    setValue({ html: html, plainText: editor.getText() });
-    props.onChange({ html: html, plainText: editor.getText() });
+  const handleChange = (html, _delta, _source, editor) => {
+    const plainText = editor.getText().replace(/\n/g, "");
+    setValue({ html, plainText });
+    props.onChange({ html, plainText });
   };
 
   return (
