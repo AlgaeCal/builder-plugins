@@ -108,7 +108,7 @@ const RichTextEditor = (props) => {
 };
 
 Builder.registerEditor({
-  name: "RichTextFAQ2",
+  name: "RichTextFAQ",
   component: RichTextEditor,
 });
 
