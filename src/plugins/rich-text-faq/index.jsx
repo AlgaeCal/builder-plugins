@@ -3,7 +3,7 @@
 import { jsx } from "@emotion/core"; // Important! This line is necessary for the plugin to work with Builder.io
 import { Builder } from "@builder.io/react";
 import ReactQuill, { Quill } from "react-quill";
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import Toolbar from "./components/Toolbar";
 import Highlight from "../../blots/Highlight";
 import Color from "../../blots/Color";
@@ -30,40 +30,61 @@ Quill.register({ "formats/mark": Highlight });
 Quill.register({ "formats/color": Color });
 Quill.register({ "formats/link": Link });
 
+const normalizeValue = (text) => {
+  // MobX observable map (MSTMap2)
+  if (typeof text?.get === "function") {
+    const html = text.get("html") || "";
+    const plainText = text.get("plainText") || html.replace(/\n/g, "");
+    return { html, plainText };
+  }
+
+  // plain string for initial value
+  if (typeof text === "string") {
+    return {
+      html: text,
+      plainText: text.replace(/\n/g, ""),
+    };
+  }
+
+  return { html: "", plainText: "" };
+};
+
 const RichTextEditor = (props) => {
   const editorRef = useRef(null);
-  const [value, setValue] = useState({
-    html: props.value,
-    plainText: props.value,
-  });
+  const [value, setValue] = useState(() => normalizeValue(props.value));
+
+  useEffect(() => {
+    const normalized = normalizeValue(props.value);
+    if (
+      normalized.html !== value.html ||
+      normalized.plainText !== value.plainText
+    ) {
+      if (normalized.html || normalized.plainText) setValue(normalized);
+    }
+  }, [props.value]);
 
   const insertHighlight = useCallback(() => {
-    if (!editorRef.current) return;
-    const editor = editorRef.current.getEditor();
-    const range = editor.getSelection();
+    const editor = editorRef.current?.getEditor?.();
+    const range = editor?.getSelection();
     if (range) {
       const { highlight } = editor.getFormat(range);
       editor.formatText(range.index, range.length, "highlight", highlight);
     }
-  }, [editorRef]);
+  }, []);
 
-  const insertColor = useCallback(
-    (color) => {
-      if (!editorRef.current) return;
-      const editor = editorRef.current.getEditor();
-      const range = editor.getSelection();
-      if (range) {
-        const { color: currentColor = "red" } = editor.getFormat(range);
-        editor.formatText(
-          range.index,
-          range.length,
-          "color",
-          currentColor ? false : color
-        );
-      }
-    },
-    [editorRef]
-  );
+  const insertColor = useCallback((color) => {
+    const editor = editorRef.current?.getEditor?.();
+    const range = editor?.getSelection();
+    if (range) {
+      const { color: currentColor = "red" } = editor.getFormat(range);
+      editor.formatText(
+        range.index,
+        range.length,
+        "color",
+        currentColor ? false : color
+      );
+    }
+  }, []);
 
   const handleChange = (html, _delta, _source, editor) => {
     const plainText = editor.getText().replace(/\n/g, "");
@@ -80,14 +101,14 @@ const RichTextEditor = (props) => {
         value={value.html}
         modules={modules}
         formats={formats}
-        theme={"snow"}
+        theme="snow"
       />
     </div>
   );
 };
 
 Builder.registerEditor({
-  name: "RichTextFAQ",
+  name: "RichTextFAQ2",
   component: RichTextEditor,
 });
 
