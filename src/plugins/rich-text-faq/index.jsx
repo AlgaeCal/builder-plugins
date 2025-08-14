@@ -9,11 +9,9 @@ import Highlight from "../../blots/Highlight";
 import Color from "../../blots/Color";
 import Link from "../../blots/Link";
 
-const modules = {
-  toolbar: {
-    container: "#toolbar",
-  },
-};
+Quill.register({ "formats/mark": Highlight });
+Quill.register({ "formats/color": Color });
+Quill.register({ "formats/link": Link });
 
 const formats = [
   "bold",
@@ -25,10 +23,6 @@ const formats = [
   "color",
   "highlight",
 ];
-
-Quill.register({ "formats/mark": Highlight });
-Quill.register({ "formats/color": Color });
-Quill.register({ "formats/link": Link });
 
 const normalizeValue = (text) => {
   // MobX observable map (MSTMap2)
@@ -50,8 +44,15 @@ const normalizeValue = (text) => {
 };
 
 const RichTextEditor = (props) => {
+  const [toolbarId] = useState(
+    () => `toolbar-${Math.random().toString(36).slice(2, 9)}`
+  );
   const editorRef = useRef(null);
   const [value, setValue] = useState(() => normalizeValue(props.value));
+
+  const modules = {
+    toolbar: { container: `#${toolbarId}` },
+  };
 
   useEffect(() => {
     const normalized = normalizeValue(props.value);
@@ -94,7 +95,11 @@ const RichTextEditor = (props) => {
 
   return (
     <div className="text-editor">
-      <Toolbar insertHighlight={insertHighlight} insertColor={insertColor} />
+      <Toolbar
+        id={toolbarId}
+        insertHighlight={insertHighlight}
+        insertColor={insertColor}
+      />
       <ReactQuill
         ref={editorRef}
         onChange={handleChange}
