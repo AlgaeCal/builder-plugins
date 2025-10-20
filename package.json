@@ -11,7 +11,8 @@
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development",
     "test": "jest --coverage",
-    "lint": "eslint src --ext .js,.jsx"
+    "lint": "eslint src --ext .js,.jsx",
+    "start": "npm run build && npm run dev"
   },
   "author": "AlgaeCal",
   "license": "ISC",
