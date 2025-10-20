@@ -4,6 +4,7 @@ import { jsx } from "@emotion/core"; // Important! This line is necessary for th
 import { Builder } from "@builder.io/react";
 import ReactQuill, { Quill } from "react-quill";
 import { useRef, useCallback, useState } from "react";
+import PropTypes from "prop-types";
 import Toolbar from "./components/Toolbar";
 import Link from "../../blots/Link";
 import Highlight from "../../blots/Highlight";
@@ -88,5 +89,10 @@ Builder.registerEditor({
   name: "ListRichText",
   component: RichTextEditor,
 });
+
+RichTextEditor.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
+};
 
 export default RichTextEditor;

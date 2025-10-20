@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Toolbar = ({ id, insertHighlight, insertColor }) => {
   return (
@@ -49,6 +50,12 @@ const Toolbar = ({ id, insertHighlight, insertColor }) => {
       </div>
     </div>
   );
+};
+
+Toolbar.propTypes = {
+  id: PropTypes.string.isRequired,
+  insertHighlight: PropTypes.func.isRequired,
+  insertColor: PropTypes.func.isRequired,
 };
 
 export default Toolbar;
