@@ -27,7 +27,7 @@ const formats = [
 
 const RichTextEditor = (props) => {
   const [toolbarId] = useState(
-    () => `toolbar-${Math.random().toString(36).slice(2, 9)}`
+    () => `toolbar-basic-${Math.random().toString(36).slice(2, 9)}`
   );
   const editorRef = useRef(null);
 

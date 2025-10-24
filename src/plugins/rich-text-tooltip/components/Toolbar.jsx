@@ -55,9 +55,9 @@ const Toolbar = ({ id, insertHighlight, insertColor, insertTooltip }) => {
             <strong> Color </strong>{" "}
           </button>
           <button
-            id="tooltip-button"
-            onClick={() => insertTooltip()}
             style={{ width: "fit-content" }}
+            id={`tooltip-button-${id}`}
+            onClick={() => insertTooltip("blue")}
           >
             {" "}
             <strong> Tooltip </strong>{" "}

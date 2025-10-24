@@ -30,7 +30,7 @@ const formats = [
 
 const RichTextEditor = (props) => {
   const [toolbarId] = useState(
-    () => `toolbar-${Math.random().toString(36).slice(2, 9)}`
+    () => `toolbar-list-item-${Math.random().toString(36).slice(2, 9)}`
   );
   const editorRef = useRef(null);
 

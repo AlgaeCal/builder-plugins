@@ -8,14 +8,22 @@ class Tooltip extends Inline {
 
   static create(value) {
     const uniqueId = `tooltip-id-${Math.random().toString(36).slice(2, 9)}`;
-    const node = super.create(uniqueId);
-    node.setAttribute("data-tooltip-id", value);
-    node.setAttribute("id", value);
+    const node = super.create();
+    node.style.background = value || "blue";
+    node.setAttribute("data-tooltip-id", uniqueId);
     return node;
   }
 
   static formats(node) {
-    return node.getAttribute("data-tooltip-id");
+    return node.style.background ?? "blue";
+  }
+
+  format(name, value) {
+    if (name === "background" && value) {
+      this.domNode.style.background = "blue";
+    } else {
+      super.format(name, false);
+    }
   }
 }
 

@@ -11,10 +11,10 @@ import Color from "../../blots/Color";
 import Link from "../../blots/Link";
 import Tooltip from "../../blots/Tooltip";
 
-Quill.register({ "formats/mark": Highlight });
-Quill.register({ "formats/color": Color });
-Quill.register({ "formats/link": Link });
-Quill.register({ "formats/tooltip": Tooltip });
+Quill.register({ "formats/mark": Highlight }, true);
+Quill.register({ "formats/color": Color }, true);
+Quill.register({ "formats/link": Link }, true);
+Quill.register({ "formats/tooltip": Tooltip }, true);
 
 const formats = [
   "bold",
@@ -25,12 +25,13 @@ const formats = [
   "script",
   "color",
   "highlight",
+  "background",
   "tooltip",
 ];
 
 const RichTextEditor = (props) => {
   const [toolbarId] = useState(
-    () => `toolbar-${Math.random().toString(36).slice(2, 9)}`
+    () => `toolbar-tooltip-${Math.random().toString(36).slice(2, 9)}`
   );
   const editorRef = useRef(null);
 
@@ -43,7 +44,6 @@ const RichTextEditor = (props) => {
     const editor = editorRef.current.getEditor();
     const range = editor.getSelection();
     if (range) {
-      console.log("Current formats:", editor.getFormat(range));
       const { highlight } = editor.getFormat(range);
       editor.formatText(range.index, range.length, "highlight", highlight);
     }
@@ -67,24 +67,31 @@ const RichTextEditor = (props) => {
     [editorRef]
   );
 
-  const insertTooltip = useCallback(() => {
-    if (!editorRef.current) return;
-    const editor = editorRef.current.getEditor();
+  const insertTooltip = useCallback(
+    (background) => {
+      if (!editorRef.current) return;
+      const editor = editorRef.current.getEditor();
+      const range = editor.getSelection();
+      if (range) {
+        const currentFormats = editor.getFormat(range);
+        const hasTooltip = !!currentFormats.tooltip;
 
-    const range = editor.getSelection();
-    if (range) {
-      const currentFormat = editor.getFormat(range);
-      const isActive = !!currentFormat.tooltip;
-
-      // Apply the format if not active to trigger the create method
-      editor.format(
-        "tooltip",
-        isActive ? false : "tooltip-target",
-        Quill.sources.USER
-      );
-      editor.formatText(range.index, range.length, "bold", !isActive);
-    }
-  }, [editorRef]);
+        editor.formatText(
+          range.index,
+          range.length,
+          "tooltip",
+          hasTooltip ? false : background
+        );
+        editor.formatText(
+          range.index,
+          range.length,
+          "background",
+          hasTooltip ? false : background
+        );
+      }
+    },
+    [editorRef]
+  );
 
   return (
     <div className="text-editor">

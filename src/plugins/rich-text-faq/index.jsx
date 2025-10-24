@@ -46,7 +46,7 @@ const normalizeValue = (text) => {
 
 const RichTextEditor = (props) => {
   const [toolbarId] = useState(
-    () => `toolbar-${Math.random().toString(36).slice(2, 9)}`
+    () => `toolbar-faq-${Math.random().toString(36).slice(2, 9)}`
   );
   const editorRef = useRef(null);
   const [value, setValue] = useState(() => normalizeValue(props.value));
