@@ -76,21 +76,18 @@ const RichTextEditor = (props) => {
 
       const currentFormats = editor.getFormat(range);
       const hasTooltip = !!currentFormats.tooltip;
-      const tooltipId =
-        currentFormats.tooltip?.id ||
-        `tooltip-id-${Math.random().toString(36).slice(2, 9)}`;
 
       editor.formatText(
         range.index,
         range.length,
         "tooltip",
-        hasTooltip ? false : { id: tooltipId, background }
+        hasTooltip ? false : { id: "tooltip-id", background }
       );
       editor.formatText(
         range.index,
         range.length,
         "background",
-        hasTooltip ? false : { id: tooltipId, background }
+        hasTooltip ? false : { id: "tooltip-id", background }
       );
     },
     [editorRef]
