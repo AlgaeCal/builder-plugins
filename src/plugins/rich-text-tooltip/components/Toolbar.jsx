@@ -1,7 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Toolbar = ({ id, insertHighlight, insertColor, insertTooltip }) => {
+const Toolbar = ({
+  id,
+  insertHighlight,
+  insertColor,
+  insertTooltip,
+  isTooltipActive,
+}) => {
   return (
     <div
       id={id}
@@ -58,6 +64,7 @@ const Toolbar = ({ id, insertHighlight, insertColor, insertTooltip }) => {
             style={{ width: "fit-content" }}
             id={`tooltip-button-${id}`}
             onClick={() => insertTooltip("blue")}
+            className={isTooltipActive ? "tooltip-active" : ""}
           >
             {" "}
             <strong> Tooltip </strong>{" "}
@@ -73,6 +80,7 @@ Toolbar.propTypes = {
   insertHighlight: PropTypes.func.isRequired,
   insertColor: PropTypes.func.isRequired,
   insertTooltip: PropTypes.func.isRequired,
+  isTooltipActive: PropTypes.bool.isRequired,
 };
 
 export default Toolbar;
