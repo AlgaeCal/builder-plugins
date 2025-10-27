@@ -1,5 +1,5 @@
 // contents of .babelrc
-// use preset-react to support JSX 
+// use preset-react to support JSX
 {
   "presets": ["@babel/preset-react"],
   "env": {

@@ -5,6 +5,7 @@ import { Builder } from "@builder.io/react";
 import ReactQuill, { Quill } from "react-quill";
 import { useRef, useCallback, useState, useEffect } from "react";
 import Toolbar from "./components/Toolbar";
+import PropTypes from "prop-types";
 import Highlight from "../../blots/Highlight";
 import Color from "../../blots/Color";
 import Link from "../../blots/Link";
@@ -45,7 +46,7 @@ const normalizeValue = (text) => {
 
 const RichTextEditor = (props) => {
   const [toolbarId] = useState(
-    () => `toolbar-${Math.random().toString(36).slice(2, 9)}`
+    () => `toolbar-faq-${Math.random().toString(36).slice(2, 9)}`
   );
   const editorRef = useRef(null);
   const [value, setValue] = useState(() => normalizeValue(props.value));
@@ -116,5 +117,9 @@ Builder.registerEditor({
   name: "RichTextFAQ",
   component: RichTextEditor,
 });
+RichTextEditor.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default RichTextEditor;

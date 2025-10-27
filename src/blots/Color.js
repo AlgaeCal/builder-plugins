@@ -1,12 +1,11 @@
+import { Quill } from "react-quill";
 
-import { Quill } from 'react-quill';
-
-const Inline = Quill.import('blots/inline');
+const Inline = Quill.import("blots/inline");
 
 class Color extends Inline {
-  static blotName = 'color';
-  static className = 'color';
-  static tagName = 'span';
+  static blotName = "color";
+  static className = "color";
+  static tagName = "span";
 
   static create(value) {
     const node = super.create();
@@ -15,12 +14,12 @@ class Color extends Inline {
   }
 
   static formats(node) {
-    return node.style.color ?? '';
+    return node.style.color ?? "";
   }
 
   format(name, value) {
-    if (name === 'color' && value) {
-      this.domNode.style.color = 'red';
+    if (name === "color" && value) {
+      this.domNode.style.color = "red";
     } else {
       super.format(name, false);
     }
@@ -28,7 +27,7 @@ class Color extends Inline {
 
   formats() {
     const formats = super.formats();
-    formats['color'] = Color.formats(this.domNode);
+    formats["color"] = Color.formats(this.domNode);
     return formats;
   }
 }

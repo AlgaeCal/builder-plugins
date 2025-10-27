@@ -1,13 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Toolbar = ({ id, insertHighlight, insertColor }) => {
+const Toolbar = ({
+  id,
+  insertHighlight,
+  insertColor,
+  insertTooltip,
+  isTooltipActive,
+}) => {
   return (
     <div
       id={id}
-      style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
+        width: "100%",
+      }}
     >
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          height: "fit-content",
+        }}
+      >
         <div>
           <button className="ql-bold" />
           <button className="ql-italic" />
@@ -22,6 +40,8 @@ const Toolbar = ({ id, insertHighlight, insertColor }) => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            height: "fit-content",
+            width: "100%",
           }}
         >
           <button
@@ -40,12 +60,15 @@ const Toolbar = ({ id, insertHighlight, insertColor }) => {
             {" "}
             <strong> Color </strong>{" "}
           </button>
-        </div>
-        <div>
-          <button className="ql-list" value="ordered"></button>
-          <button className="ql-list" value="bullet"></button>
-          <button className="ql-indent" value="-1"></button>
-          <button className="ql-indent" value="+1"></button>
+          <button
+            style={{ width: "fit-content" }}
+            id={`tooltip-button-${id}`}
+            onClick={() => insertTooltip("blue")}
+            className={isTooltipActive ? "tooltip-active" : ""}
+          >
+            {" "}
+            <strong> Tooltip </strong>{" "}
+          </button>
         </div>
       </div>
     </div>
@@ -56,6 +79,8 @@ Toolbar.propTypes = {
   id: PropTypes.string.isRequired,
   insertHighlight: PropTypes.func.isRequired,
   insertColor: PropTypes.func.isRequired,
+  insertTooltip: PropTypes.func.isRequired,
+  isTooltipActive: PropTypes.bool.isRequired,
 };
 
 export default Toolbar;

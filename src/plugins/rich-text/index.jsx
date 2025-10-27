@@ -4,6 +4,7 @@ import { jsx } from "@emotion/core"; // Important! This line is necessary for th
 import { Builder } from "@builder.io/react";
 import ReactQuill, { Quill } from "react-quill";
 import { useRef, useCallback, useState } from "react";
+import PropTypes from "prop-types";
 import Toolbar from "./components/Toolbar";
 import Highlight from "../../blots/Highlight";
 import Color from "../../blots/Color";
@@ -26,7 +27,7 @@ const formats = [
 
 const RichTextEditor = (props) => {
   const [toolbarId] = useState(
-    () => `toolbar-${Math.random().toString(36).slice(2, 9)}`
+    () => `toolbar-basic-${Math.random().toString(36).slice(2, 9)}`
   );
   const editorRef = useRef(null);
 
@@ -85,5 +86,10 @@ Builder.registerEditor({
   name: "RichText",
   component: RichTextEditor,
 });
+
+RichTextEditor.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
+};
 
 export default RichTextEditor;
