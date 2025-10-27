@@ -43,10 +43,10 @@ const RichTextEditor = (props) => {
     if (!editorRef.current) return;
     const editor = editorRef.current.getEditor();
     const range = editor.getSelection();
-    if (range) {
-      const { highlight } = editor.getFormat(range);
-      editor.formatText(range.index, range.length, "highlight", highlight);
-    }
+    if (!range) return;
+
+    const { highlight } = editor.getFormat(range);
+    editor.formatText(range.index, range.length, "highlight", highlight);
   }, [editorRef]);
 
   const insertColor = useCallback(
@@ -54,15 +54,15 @@ const RichTextEditor = (props) => {
       if (!editorRef.current) return;
       const editor = editorRef.current.getEditor();
       const range = editor.getSelection();
-      if (range) {
-        const { color: currentColor = "red" } = editor.getFormat(range);
-        editor.formatText(
-          range.index,
-          range.length,
-          "color",
-          currentColor ? false : color
-        );
-      }
+      if (!range) return;
+
+      const { color: currentColor = "red" } = editor.getFormat(range);
+      editor.formatText(
+        range.index,
+        range.length,
+        "color",
+        currentColor ? false : color
+      );
     },
     [editorRef]
   );
@@ -72,23 +72,26 @@ const RichTextEditor = (props) => {
       if (!editorRef.current) return;
       const editor = editorRef.current.getEditor();
       const range = editor.getSelection();
-      if (range) {
-        const currentFormats = editor.getFormat(range);
-        const hasTooltip = !!currentFormats.tooltip;
+      if (!range) return;
 
-        editor.formatText(
-          range.index,
-          range.length,
-          "tooltip",
-          hasTooltip ? false : background
-        );
-        editor.formatText(
-          range.index,
-          range.length,
-          "background",
-          hasTooltip ? false : background
-        );
-      }
+      const currentFormats = editor.getFormat(range);
+      const hasTooltip = !!currentFormats.tooltip;
+      const tooltipId =
+        currentFormats.tooltip?.id ||
+        `tooltip-id-${Math.random().toString(36).slice(2, 9)}`;
+
+      editor.formatText(
+        range.index,
+        range.length,
+        "tooltip",
+        hasTooltip ? false : { id: tooltipId, background }
+      );
+      editor.formatText(
+        range.index,
+        range.length,
+        "background",
+        hasTooltip ? false : { id: tooltipId, background }
+      );
     },
     [editorRef]
   );

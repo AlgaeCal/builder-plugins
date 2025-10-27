@@ -7,22 +7,32 @@ class Tooltip extends Inline {
   static tagName = "span";
 
   static create(value) {
-    const uniqueId = `tooltip-id-${Math.random().toString(36).slice(2, 9)}`;
     const node = super.create();
-    node.style.background = value || "blue";
-    node.setAttribute("data-tooltip-id", uniqueId);
+    node.setAttribute("data-tooltip-id", value?.id || "missing-tooltip-id");
+    node.style.background = value?.background || "blue";
     return node;
   }
 
   static formats(node) {
-    return node.style.background ?? "blue";
+    return {
+      id: node.getAttribute("data-tooltip-id"),
+      background: node.style.background,
+    };
+  }
+
+  static value(node) {
+    return {
+      id: node.getAttribute("data-tooltip-id"),
+      background: node.style.background,
+    };
   }
 
   format(name, value) {
     if (name === "background" && value) {
-      this.domNode.style.background = "blue";
+      this.domNode.setAttribute("data-tooltip-id", value.id);
+      this.domNode.style.background = value.background;
     } else {
-      super.format(name, false);
+      super.format(name, value);
     }
   }
 }
